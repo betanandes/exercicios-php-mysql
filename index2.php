@@ -44,20 +44,22 @@
                 } else {
                     echo "Erro ao atualizar: " . $conn->error;
                 }                 
-            } else {
-            //Tentativa de delete
-                $idPessoa = $_POST['id'];
-                $nome = $_POST['nome'];
-                $idade = $_POST['idade'];   
+            } 
+        } else {
+            //Tentativa de delete  
 
             $sqlDelete = "DELETE from pessoas WHERE id = $idPessoa";
              if ($conn->query($sqlDelete) === TRUE) {
                     echo "Registro excluido com sucesso!";
+
+           	$idPessoa = 0;
+                $nome = '';
+                $idade = ''; 
                 } else {
                     echo "Erro ao atualizar: " . $conn->error;
                 } 
-        }
-        
+        }      
+
         // Localizar registro
         if (isset($_POST['buscar'])) {
             $nomeBusca = $_POST['nomeBusca'];
@@ -92,7 +94,10 @@
         <input type="number" id="idade" name="idade" value="<?php echo $idadeAtual; ?>" required><br><br>
 
         <input type="submit" name="salvar" value="<?php echo ($idPessoa > 0) ? 'Atualizar' : 'Salvar'; ?>">
-        <input type="reset" name="excluir" value="<?php echo ($idPessoa > 0) ? 'Atualizar' : 'Excluir'; ?>">
+
+        <?php if ($idPessoa > 0) { ?>
+            <input type="submit" name="excluir" value="Excluir">
+        <?php } ?>
     </form>
 
     <h1>Localizar Pessoa</h1>
